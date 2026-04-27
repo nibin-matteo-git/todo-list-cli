@@ -1,6 +1,5 @@
 package todo
 
-type Todo struct {
-	Name string
-	
+func main(){
+	fmt.Println("hello world")
 }
