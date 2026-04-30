@@ -4,7 +4,10 @@ import (
 	"time"
 	"errors"
 	"fmt"
+	"log"
 )
+
+
 
 type Todo struct {
 	Name        string
@@ -58,4 +61,39 @@ func (l *List) CompleteTodo(index int) error{
 	}
 	l.Items[index].Done = true
 	return nil
+}
+
+ 
+func GetTodos() []Todo{
+	var result []Todo
+	query := `Select * from ` + TABLE_NAME + `;`
+	rows, err := DB.Query(query)
+	handleError(err, "error querying select statement from db")
+	defer rows.Close()
+	for rows.Next(){
+		var todo Todo
+		rows.Scan(&todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done)
+		result = append(result, todo)
+	}
+
+
+	outStr := ""
+	for i, v := range result{
+		status := " "
+		if v.Done == true{
+			status = "X"
+		}
+		outStrLine := fmt.Sprintf("%d. [%s] %s\n", i, status, v.Name)
+		outStr += outStrLine
+	}
+	fmt.Println(outStr)
+	return result
+}
+
+
+func handleError(err error, msg string){
+	if err != nil{
+		log.Println(msg)
+		log.Println(err)
+	}
 }
