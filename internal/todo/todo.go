@@ -71,8 +71,10 @@ func GetTodos() []Todo{
 	handleError(err, "error querying select statement from db")
 	defer rows.Close()
 	for rows.Next(){
+		var pid int
 		var todo Todo
-		rows.Scan(&todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done)
+		err = rows.Scan(&pid, &todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done)
+		handleError(err, "Error when querying DB")
 		result = append(result, todo)
 	}
 

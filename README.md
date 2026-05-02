@@ -22,5 +22,8 @@ A CLI to connect with my backend todo list app
 
   NOTE: `go doc -src` shows source code for the same method
 * To interact with sqlite db - `sqlite3 <db name>` and to quit cli --> `.quit`
+
+  `.schema <table name>` prints schema of the table
+
 * 
   
