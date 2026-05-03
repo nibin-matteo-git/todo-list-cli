@@ -13,7 +13,7 @@ var DB *sql.DB
 
 var insertDummyData string = fmt.Sprintf(`
 	insert into %s
-	values (4, "test todo", "test-todo", "%v", "%v", 0);`, TABLE_NAME, time.Now().Format(time.DateTime), time.Now().Format(time.DateTime))
+	values (null, "test todo", "test-todo", "%v", "%v", 0);`, TABLE_NAME, time.Now().Format(time.DateTime), time.Now().Format(time.DateTime))
 
 
 var dbCreationSql string = fmt.Sprintf(`
@@ -25,6 +25,7 @@ var dbCreationSql string = fmt.Sprintf(`
 	due DATETIME, 
 	done BOOLEAN DEFAULT 0
 	);`, TABLE_NAME)
+
 
 func InitDB(){
 	var err error

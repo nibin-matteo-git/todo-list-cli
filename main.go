@@ -11,7 +11,6 @@ func main(){
 	todo.InitDB()
 	log.Println("initdb done successfully")
 	todo.GetTodos()
-
 }
 
 var DB *sql.DB
