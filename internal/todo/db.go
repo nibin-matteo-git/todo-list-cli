@@ -13,17 +13,18 @@ var DB *sql.DB
 
 var insertDummyData string = fmt.Sprintf(`
 	insert into %s
-	values (null, "test todo", "test-todo", "%v", "%v", 0);`, TABLE_NAME, time.Now().Format(time.DateTime), time.Now().Format(time.DateTime))
+	values (null, "test todo", "test-todo", "%v", "%v", 0, 0);`, TABLE_NAME, time.Now().Format(time.DateTime), time.Now().Format(time.DateTime))
 
 
 var dbCreationSql string = fmt.Sprintf(`
 	CREATE TABLE IF NOT EXISTS %s (
-	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	name VARCHAR(255), 
-	description TEXT, 
-	created DATETIME, 
-	due DATETIME, 
-	done BOOLEAN DEFAULT 0
+	Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	Name VARCHAR(255), 
+	Description TEXT, 
+	Created DATETIME, 
+	Due DATETIME, 
+	Done BOOLEAN DEFAULT 0, 
+	SyncStatus BOOLEAN DEFAULT 0
 	);`, TABLE_NAME)
 
 

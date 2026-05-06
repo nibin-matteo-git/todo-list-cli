@@ -13,10 +13,13 @@ type Todo struct {
 	Created     time.Time
 	Due         time.Time
 	Done        bool
+	SyncStatus  bool
 }
 
+// TODO: write func to edit todo
+
 func NewTodo(name string, description string, due time.Time) *[]Todo {
-	insertIntoSql := fmt.Sprintf("INSERT INTO %s VALUES (null, %s, %s, %v, %v)", name, description, due.Format(time.DateTime), time.Now().Format(time.DateTime))
+	insertIntoSql := fmt.Sprintf("INSERT INTO %s VALUES (null, %s, %s, %v, %v, 0, 0)", name, description, due.Format(time.DateTime), time.Now().Format(time.DateTime))
 	_, err := DB.Exec(insertIntoSql)
 	handleError(err, "Error adding new todo to DB")
 	return GetTodos()
@@ -34,6 +37,11 @@ func DeleteTodo(pk int) *[]Todo{
 	_, err := DB.Exec(deleteTodoSql)
 	handleError(err, "Unable to delete todo!!")
 	return GetTodos()
+}
+
+func ( t *Todo ) PrintTodoDescription(){
+	fmt.Println("Description: \n" + t.Description)
+	fmt.Println("\nDue: \n" + t.Due.Format(time.DateTime))
 }
 
 func PrintTodos(todoList []Todo) {
@@ -57,7 +65,7 @@ func GetTodos() *[]Todo {
 	defer rows.Close()
 	for rows.Next() {
 		var todo Todo
-		err = rows.Scan(&todo.PKey, &todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done)
+		err = rows.Scan(&todo.PKey, &todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done, &todo.SyncStatus)
 		handleError(err, "Error when querying DB")
 		result = append(result, todo)
 	}
