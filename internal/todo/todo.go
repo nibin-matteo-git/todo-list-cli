@@ -43,8 +43,8 @@ func ( t *Todo ) PrintTodoDescription(){
 	fmt.Println("Description: \n" + t.Description)
 	fmt.Println("\nDue: \n" + t.Due.Format(time.DateTime))
 }
-
 func PrintTodos(todoList []Todo) {
+
 	outStr := ""
 	for i, v := range todoList {
 		status := " "
