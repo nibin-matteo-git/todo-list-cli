@@ -1,4 +1,4 @@
-package todo
+package internal
 
 import (
 	"fmt"
@@ -13,7 +13,6 @@ type Todo struct {
 	Created     time.Time
 	Due         time.Time
 	Done        bool
-	SyncStatus  bool
 }
 
 // TODO: write func to edit todo
@@ -25,21 +24,21 @@ func NewTodo(name string, description string, due time.Time) *[]Todo {
 	return GetTodos()
 }
 
-func CompleteTodo(pk int) *[]Todo{
+func CompleteTodo(pk int) *[]Todo {
 	completeTodoSql := fmt.Sprintf("UPDATE %s set done = 1 where id = %d;", TABLE_NAME, pk)
 	_, err := DB.Exec(completeTodoSql)
 	handleError(err, "Unable to update todo as completed!!")
 	return GetTodos()
 }
 
-func DeleteTodo(pk int) *[]Todo{
+func DeleteTodo(pk int) *[]Todo {
 	deleteTodoSql := fmt.Sprintf("DELETE FROM %s WHERE id = %v;", TABLE_NAME, pk)
 	_, err := DB.Exec(deleteTodoSql)
 	handleError(err, "Unable to delete todo!!")
 	return GetTodos()
 }
 
-func ( t *Todo ) PrintTodoDescription(){
+func (t *Todo) PrintTodoDescription() {
 	fmt.Println("Description: \n" + t.Description)
 	fmt.Println("\nDue: \n" + t.Due.Format(time.DateTime))
 }
@@ -66,7 +65,7 @@ func GetTodos() *[]Todo {
 	defer rows.Close()
 	for rows.Next() {
 		var todo Todo
-		err = rows.Scan(&todo.PKey, &todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done, &todo.SyncStatus)
+		err = rows.Scan(&todo.PKey, &todo.Name, &todo.Description, &todo.Created, &todo.Due, &todo.Done)
 		handleError(err, "Error when querying DB")
 		result = append(result, todo)
 	}

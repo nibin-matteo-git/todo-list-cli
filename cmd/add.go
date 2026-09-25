@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 	"time"
-	"todo-list-cli/internal/todo"
+	"todo-list-cli/internal"
 
 	"github.com/spf13/cobra"
 )
@@ -22,17 +22,17 @@ var addCmd = &cobra.Command{
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		year, _, _ := dueDate.Date()
-		if (year == 0){
+		if year == 0 {
 			dueDate = time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), dueDate.Hour(), dueDate.Minute(), dueDate.Second(), 0, time.Now().Location())
 		}
 
-		var todos = todo.NewTodo(strings.Join(args, " "),"", dueDate)
-		todo.PrintTodos(*todos)
+		var todos = internal.NewTodo(strings.Join(args, " "), "", dueDate)
+		internal.PrintTodos(*todos)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(addCmd)
 	// TODO add timezones and set it as the machine's default timezone in DB
-	addCmd.Flags().TimeVarP(&dueDate, "due", "t", time.Now().Add(time.Duration(96)*time.Hour), []string{time.Kitchen, time.DateTime, time.DateOnly},  "To describe due date")
+	addCmd.Flags().TimeVarP(&dueDate, "due", "t", time.Now().Add(time.Duration(96)*time.Hour), []string{time.Kitchen, time.DateTime, time.DateOnly}, "To describe due date")
 }

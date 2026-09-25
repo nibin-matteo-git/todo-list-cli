@@ -1,15 +1,16 @@
 package main
 
 import (
-	"todo-list-cli/internal/todo"
-	"todo-list-cli/cmd"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
+	"todo-list-cli/cmd"
+	"todo-list-cli/internal"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
-func main(){
-	todo.InitDB()
+func main() {
+	internal.InitDB()
 	log.Println("initdb done successfully")
-	todo.GetTodos()
+	internal.GetTodos()
 	cmd.Execute()
 }
